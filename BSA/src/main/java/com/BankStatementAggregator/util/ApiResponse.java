@@ -3,7 +3,6 @@ package com.BankStatementAggregator.util;
 import lombok.ToString;
 
 @ToString
-
 public class ApiResponse {
 
 	private int status;
