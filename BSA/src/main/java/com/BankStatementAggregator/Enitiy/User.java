@@ -58,12 +58,12 @@ public class User {
 	@JoinColumn(name="company_id", referencedColumnName = "company_id")
 	private Company company;
 	
-	@ManyToMany
-    @JoinTable(
-        name = "user_bank",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "bank_id"))
-    private Set<Bank> banks; // Many users can have many banks
+//	@ManyToMany
+//    @JoinTable(
+//        name = "user_bank",
+//        joinColumns = @JoinColumn(name = "user_id"),
+//        inverseJoinColumns = @JoinColumn(name = "bank_id"))
+//    private Set<Bank> banks; // Many users can have many banks
 	
 	
 	public long getUserId() {
@@ -135,13 +135,13 @@ public class User {
 
 	
 
-	public Set<Bank> getBanks() {
-		return banks;
-	}
-
-	public void setBanks(Set<Bank> banks) {
-		this.banks = banks;
-	}
+//	public Set<Bank> getBanks() {
+//		return banks;
+//	}
+//
+//	public void setBanks(Set<Bank> banks) {
+//		this.banks = banks;
+//	}
 
 	public LocalDateTime getUserLastPasswordChangeDate() {
 		return userLastPasswordChangeDate;

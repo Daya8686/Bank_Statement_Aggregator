@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
@@ -26,11 +27,11 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 	@Autowired
 	private ErrorResponse errorResponse;
 	
-	@ExceptionHandler(MethodArgumentNotValidException.class)
+//	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public ErrorResponse handleValidationExceptions(MethodArgumentNotValidException ex, BindingResult result) {
@@ -52,7 +53,7 @@ public class GlobalExceptionHandler {
 		return errorResponse;
 	}
 
-	@ExceptionHandler( TypeMismatchException.class)
+//	@ExceptionHandler( TypeMismatchException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public ErrorResponse handleTypeMismatchException( TypeMismatchException ex,
@@ -64,7 +65,7 @@ public class GlobalExceptionHandler {
 
 	}
 	
-	@ExceptionHandler(HttpMessageNotReadableException.class)
+//	@ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
@@ -89,7 +90,7 @@ public class GlobalExceptionHandler {
         return errorResponse;
     }
 	
-	@ExceptionHandler(DataIntegrityViolationException.class)
+//	@ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
@@ -115,7 +116,7 @@ public class GlobalExceptionHandler {
 		
 	}
 	
-	@ExceptionHandler( EntityNotFoundException.class)
+//	@ExceptionHandler( EntityNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ResponseBody
     public ErrorResponse handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
@@ -127,7 +128,7 @@ public class GlobalExceptionHandler {
 		
 	}
 	
-	@ExceptionHandler(ConstraintViolationException.class)
+//	@ExceptionHandler(ConstraintViolationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public ErrorResponse handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
@@ -139,7 +140,7 @@ public class GlobalExceptionHandler {
 		return errorResponse;
 	}
 	
-	@ExceptionHandler(SQLException.class)
+//	@ExceptionHandler(SQLException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ErrorResponse handleSQLException(SQLException ex, WebRequest request) {
@@ -148,6 +149,53 @@ public class GlobalExceptionHandler {
 		errorResponse.setTimestamp(LocalDateTime.now());
 		return errorResponse;
 	}
+	
+	@ExceptionHandler(UserServiceException.class)
+	@ResponseBody
+	public ErrorResponse handlingUserServiceExceptions(UserServiceException ex) {
+		errorResponse.setStatus(ex.getHttpStatus().value());
+		errorResponse.setMessage(ex.getMessage());
+		errorResponse.setTimestamp(LocalDateTime.now());
+		return errorResponse;
+	}
+	
+	@ExceptionHandler(CompanyServiceExceptionHandler.class)
+	@ResponseBody
+	public ErrorResponse handlingCompanyServiceException (CompanyServiceExceptionHandler ex) {
+		errorResponse.setStatus(ex.getHttpStatus().value());
+		errorResponse.setMessage(ex.getMessage());
+		errorResponse.setTimestamp(LocalDateTime.now());
+		return errorResponse;
+	}
+	
+	@ExceptionHandler(BranchServiceExceptionHandler.class)
+	@ResponseBody
+	public ErrorResponse handlingBranchServiceException (BranchServiceExceptionHandler ex) {
+		errorResponse.setStatus(ex.getHttpStatus().value());
+		errorResponse.setMessage(ex.getMessage());
+		errorResponse.setTimestamp(LocalDateTime.now());
+		return errorResponse;
+	}
+	
+	
+	@ExceptionHandler(BankServiceExceptionHandler.class)
+	@ResponseBody
+	public ErrorResponse handlingBankServiceException (BankServiceExceptionHandler ex) {
+		errorResponse.setStatus(ex.getHttpStatus().value());
+		errorResponse.setMessage(ex.getMessage());
+		errorResponse.setTimestamp(LocalDateTime.now());
+		return errorResponse;
+	}
+	
+	@ExceptionHandler(BankStatementGenerationExceptionHandler.class)
+	@ResponseBody
+	public ErrorResponse handlingBankStatementGenerationExceptionHandler (BankStatementGenerationExceptionHandler ex) {
+		errorResponse.setStatus(ex.getHttpStatus().value());
+		errorResponse.setMessage(ex.getMessage());
+		errorResponse.setTimestamp(LocalDateTime.now());
+		return errorResponse;
+	}
+	
 	
 	
 	

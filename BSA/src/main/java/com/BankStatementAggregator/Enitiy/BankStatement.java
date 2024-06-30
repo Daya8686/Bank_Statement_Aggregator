@@ -2,6 +2,8 @@ package com.BankStatementAggregator.Enitiy;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,19 +26,26 @@ public class BankStatement {
     @Column(name="statement_date")
     private LocalDate statementDate;
     
-    @Column(name="statement_balance")
-    private String statementBalance;
+    @Column(name="statement_code")
+    private String statementCode;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+//    private User user;
 
     @ManyToOne
     @JoinColumn(name = "company_id", referencedColumnName = "company_id")
+    @JsonIgnore
     private Company company;
+    
+    @ManyToOne
+    @JoinColumn(name = "bank_id", referencedColumnName = "bank_id")
+    @JsonIgnore
+    private Bank bank;
 
     @ManyToOne
     @JoinColumn(name = "branch_id", referencedColumnName = "branch_id")
+    @JsonIgnore
     private Branch branch;
 
 	public Long getStatementId() {
@@ -55,20 +64,31 @@ public class BankStatement {
 		this.statementDate = statementDate;
 	}
 
-	public String getStatementBalance() {
-		return statementBalance;
+	
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
+
+	
+
+	public Bank getBank() {
+		return bank;
 	}
 
-	public void setStatementBalance(String statementBalance) {
-		this.statementBalance = statementBalance;
+	public String getStatementCode() {
+		return statementCode;
 	}
 
-	public User getUser() {
-		return user;
+	public void setStatementCode(String statementCode) {
+		this.statementCode = statementCode;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setBank(Bank bank) {
+		this.bank = bank;
 	}
 
 	public Company getCompany() {

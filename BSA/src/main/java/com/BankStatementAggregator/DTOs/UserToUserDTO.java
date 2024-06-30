@@ -36,7 +36,7 @@ public class UserToUserDTO {
 
 	private Company company;
 
-	private Set<Bank> banks;
+//	private Set<Bank> banks;
 
 	public long getUserId() {
 		return userId;
@@ -118,13 +118,13 @@ public class UserToUserDTO {
 		this.company = company;
 	}
 
-	public Set<Bank> getBanks() {
-		return banks;
-	}
-
-	public void setBanks(Set<Bank> banks) {
-		this.banks = banks;
-	}
-	
+//	public Set<Bank> getBanks() {
+//		return banks;
+//	}
+//
+//	public void setBanks(Set<Bank> banks) {
+//		this.banks = banks;
+//	}
+//	
 
 }

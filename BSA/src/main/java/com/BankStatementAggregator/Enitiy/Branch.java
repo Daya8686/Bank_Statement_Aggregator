@@ -35,11 +35,12 @@ public class Branch {
 
     @ManyToOne
     @JoinColumn(name = "bank_id", referencedColumnName = "bank_id",nullable = false)
+    @JsonIgnore
     private Bank bank;
 
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
-    @JsonIgnore
     private Set<BankStatement> bankStatements;
+    
 
 	public Long getBranchId() {
 		return branchId;
@@ -80,6 +81,8 @@ public class Branch {
 	public void setBankStatements(Set<BankStatement> bankStatements) {
 		this.bankStatements = bankStatements;
 	}
+
+	
     
     
 }

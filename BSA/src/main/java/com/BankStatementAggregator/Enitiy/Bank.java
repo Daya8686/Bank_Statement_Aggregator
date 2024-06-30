@@ -30,12 +30,15 @@ public class Bank {
 	@Column(name="bank_code", unique = true)
     private int bankCode;
 
-	@ManyToMany(mappedBy = "banks", cascade = CascadeType.ALL)
-	@JsonIgnore
-    private Set<User> users; // Many banks can have many users
+//	@ManyToMany(mappedBy = "banks", cascade = CascadeType.ALL)
+//	@JsonIgnore
+//    private Set<User> users; // Many banks can have many users
+	
+//	@ManyToMany(mappedBy = "banks", cascade = CascadeType.ALL)
+//    private Set<Company> company; // Many banks can have many users
+
 
     @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL)
-    @JsonIgnore
     private Set<Branch> branches;
 
 	public Long getBankId() {
@@ -66,17 +69,25 @@ public class Bank {
 		this.bankCode = bankCode;
 	}
 
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
+//	public Set<User> getUsers() {
+//		return users;
+//	}
+//
+//	public void setUsers(Set<User> users) {
+//		this.users = users;
+//	}
 
 	public Set<Branch> getBranches() {
 		return branches;
 	}
+
+//	public Set<Company> getCompany() {
+//		return company;
+//	}
+//
+//	public void setCompany(Set<Company> company) {
+//		this.company = company;
+//	}
 
 	public void setBranches(Set<Branch> branches) {
 		this.branches = branches;
