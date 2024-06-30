@@ -19,6 +19,5 @@ public class BsaApplication {
 		return new ModelMapper();
 	}
 	
-	
 
 }
