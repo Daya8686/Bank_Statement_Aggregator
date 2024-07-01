@@ -13,12 +13,10 @@ public class BsaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BsaApplication.class, args);
 	}
-	
+
 	@Bean
 	public ModelMapper mapper() {
 		return new ModelMapper();
 	}
-	
 
-	
 }
