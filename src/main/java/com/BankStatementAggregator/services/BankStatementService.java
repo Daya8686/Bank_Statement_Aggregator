@@ -35,10 +35,9 @@ public class BankStatementService {
 
 	@Autowired
 	private BranchRepository branchRepository;
-	
+
 	@Autowired
 	private BankStatementRepository bankStatementRepository;
-	
 
 	public ResponseEntity<?> statementGenerator(StatementGenerationDTO generationDTO) {
 		// TODO Auto-generated method stub
@@ -60,16 +59,17 @@ public class BankStatementService {
 							/////
 							ResponseEntity<BankStatementRecevierDTO> bankStatementsGenerator = feginClient
 									.BankStatementsGenerator(generationDTO);
-							BankStatement bankStatement =new BankStatement();
-							
+							BankStatement bankStatement = new BankStatement();
+
 							BankStatementRecevierDTO statementData = bankStatementsGenerator.getBody();
 							bankStatement.setStatementDate(statementData.getStatementDate());
 							bankStatement.setStatementCode(statementData.getStatementCode());
-						bankStatement.setCompany(companyRepository.findByCompanyCode(statementData.getCompanyCode()));
-						bankStatement.setBank(bankRepository.findByBankCode(statementData.getBankCode()));
-						Optional<Branch> branchById = branchRepository.findById(statementData.getBranchId());
-						bankStatement.setBranch(branchById.get());
-						bankStatementRepository.save(bankStatement);
+							bankStatement
+									.setCompany(companyRepository.findByCompanyCode(statementData.getCompanyCode()));
+							bankStatement.setBank(bankRepository.findByBankCode(statementData.getBankCode()));
+							Optional<Branch> branchById = branchRepository.findById(statementData.getBranchId());
+							bankStatement.setBranch(branchById.get());
+							bankStatementRepository.save(bankStatement);
 
 							return bankStatementsGenerator;
 							/////

@@ -36,7 +36,7 @@ public class UserToUserDTO {
 
 	private Company company;
 
-//	private Set<Bank> banks;
+
 
 	public long getUserId() {
 		return userId;
