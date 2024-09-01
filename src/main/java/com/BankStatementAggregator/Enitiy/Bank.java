@@ -28,9 +28,9 @@ public class Bank {
 	@Column(name="bank_id")
     private Long bankId;
 
-	@Column(name="bank_name", unique = true)
+	@Column(name="bank_name", unique = true, nullable = false)
     private String bankName;
-	@Column(name="bank_code", unique = true)
+	@Column(name="bank_code", unique = true, nullable = false)
     private int bankCode;
 
 //	@ManyToMany(mappedBy = "banks", cascade = CascadeType.ALL)

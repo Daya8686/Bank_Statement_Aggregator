@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,12 +36,20 @@ public class Branch {
 	@Column(name="branch_address")
     private String branchAddress;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bank_id", referencedColumnName = "bank_id",nullable = false)
     @JsonIgnore
     private Bank bank;
+    
+    //ADDED NEWLY
+ // Many branches can belong to one company
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    @JsonIgnore
+    private Company company;
+    
 
-    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
     private Set<BankStatement> bankStatements;
     
 
@@ -50,6 +59,14 @@ public class Branch {
 
 	public void setBranchId(Long branchId) {
 		this.branchId = branchId;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	public String getBranchName() {
@@ -83,6 +100,9 @@ public class Branch {
 	public void setBankStatements(Set<BankStatement> bankStatements) {
 		this.bankStatements = bankStatements;
 	}
+
+
+	
 
 	@Override
 	public String toString() {

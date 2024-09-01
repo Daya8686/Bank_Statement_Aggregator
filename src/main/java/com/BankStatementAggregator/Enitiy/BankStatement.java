@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -47,6 +48,8 @@ public class BankStatement {
     @JoinColumn(name = "branch_id", referencedColumnName = "branch_id")
     @JsonIgnore
     private Branch branch;
+
+
 
 	public Long getStatementId() {
 		return statementId;

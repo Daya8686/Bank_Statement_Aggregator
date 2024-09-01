@@ -2,8 +2,9 @@ package com.BankStatementAggregator.Enitiy;
 
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,8 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.ToString;
 
 @Entity
 @Table(name="company")
@@ -25,10 +26,10 @@ public class Company {
 	@Column(name="company_id")
 	private Long companyId;
 	
-	@Column(name="company_name", unique = true)
+	@Column(name="company_name", unique = true, nullable = false)
 	private String companyName;
 	
-	@Column(name="company_code", unique = true)
+	@Column(name="company_code", unique = true, nullable = false)
 	private int companyCode;
 	
 	@ManyToMany
@@ -38,6 +39,12 @@ public class Company {
         inverseJoinColumns = @JoinColumn(name = "bank_id"))
     private Set<Bank> banks; // Many users can have many banks
 	
+	
+	//ADDED NEWLY
+	// One company can have many branches
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Branch> branches;
 	
 
 
@@ -58,6 +65,14 @@ public class Company {
 	}
 
 	
+
+	public Set<Branch> getBranches() {
+		return branches;
+	}
+
+	public void setBranches(Set<Branch> branches) {
+		this.branches = branches;
+	}
 
 	public int getCompanyCode() {
 		return companyCode;
