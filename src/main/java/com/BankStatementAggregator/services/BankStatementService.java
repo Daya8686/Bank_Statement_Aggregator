@@ -1,7 +1,5 @@
 package com.BankStatementAggregator.services;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,12 +8,10 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.BankStatementAggregator.DTOs.BankStatementRecevierDTO;
-import com.BankStatementAggregator.DTOs.StatementGenarateByCompany;
 import com.BankStatementAggregator.DTOs.StatementGenerationDTO;
 import com.BankStatementAggregator.Enitiy.Bank;
 import com.BankStatementAggregator.Enitiy.BankStatement;
@@ -30,7 +26,6 @@ import com.BankStatementAggregator.repository.CompanyRepository;
 import com.BankStatementAggregator.util.FileExistenceApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ch.qos.logback.core.status.Status;
 import jakarta.transaction.Transactional;
 
 @Service

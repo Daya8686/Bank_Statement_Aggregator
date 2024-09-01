@@ -107,6 +107,7 @@ public class BankStatement {
 		this.branch = branch;
 	}
 
-    // Getters and setters
     
 }
+
+
