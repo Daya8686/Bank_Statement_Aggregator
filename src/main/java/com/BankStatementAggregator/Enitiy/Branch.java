@@ -2,6 +2,7 @@ package com.BankStatementAggregator.Enitiy;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -20,6 +21,7 @@ import lombok.ToString;
 @Entity
 @Table(name="branch")
 @ToString
+@JsonFilter("BankWithOutBranch")
 public class Branch {
 	
 	
@@ -80,6 +82,12 @@ public class Branch {
 
 	public void setBankStatements(Set<BankStatement> bankStatements) {
 		this.bankStatements = bankStatements;
+	}
+
+	@Override
+	public String toString() {
+		return "Branch [branchId=" + branchId + ", branchName=" + branchName + ", branchAddress=" + branchAddress
+				+ ", bankStatements=" + bankStatements + "]";
 	}
 
 	

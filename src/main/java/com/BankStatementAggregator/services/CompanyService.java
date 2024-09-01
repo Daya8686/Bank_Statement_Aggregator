@@ -1,23 +1,34 @@
 package com.BankStatementAggregator.services;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Service;
 
 import com.BankStatementAggregator.DTOs.CompanyDTO;
+import com.BankStatementAggregator.DTOs.CompanyToCompanyDTO;
+import com.BankStatementAggregator.DTOs.UserToUserDTO;
 import com.BankStatementAggregator.Enitiy.Bank;
 import com.BankStatementAggregator.Enitiy.Company;
+import com.BankStatementAggregator.Enitiy.User;
 import com.BankStatementAggregator.errorhandiling.CompanyServiceExceptionHandler;
 import com.BankStatementAggregator.repository.BankRepository;
 import com.BankStatementAggregator.repository.CompanyRepository;
+import com.BankStatementAggregator.repository.UserRepository;
 import com.BankStatementAggregator.util.ApiResponse;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
 @Service
 public class CompanyService {
@@ -27,12 +38,33 @@ public class CompanyService {
 
 	@Autowired
 	private BankRepository bankRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	
 
 	@Autowired
 	private ModelMapper mapper;
 
 	public ResponseEntity<?> creatingCompany(CompanyDTO companyDTO) {
 		Company company = mapper.map(companyDTO, Company.class);
+		
+		Set<Integer> bankCodes = companyDTO.getBankCodes();
+		Set<Bank> Allbanks=new HashSet<>();
+		
+		
+		for(Integer bankcode: bankCodes) {
+			Bank byBankCode = bankRepository.findByBankCode(bankcode);
+			if(byBankCode!=null) {
+				byBankCode.getCompany().add(company);
+			Allbanks.add(byBankCode);
+			}
+			company.setBanks(Allbanks);
+			
+			
+		}
+		
 		Company saveCompany = companyRepository.save(company);
 		if (saveCompany.equals(null)) {
 			throw new CompanyServiceExceptionHandler("Unable to save or add company information",
@@ -45,6 +77,7 @@ public class CompanyService {
 	}
 
 	public ResponseEntity<?> getCompanyById(Long id) {
+		
 		Optional<Company> companyById = companyRepository.findById(id);
 		if (companyById.isEmpty()) {
 			throw new CompanyServiceExceptionHandler("Company with Id: " + id + " is not available",
@@ -59,6 +92,7 @@ public class CompanyService {
 		if (all == null) {
 			throw new CompanyServiceExceptionHandler("No Company Available", HttpStatus.NOT_FOUND);
 		}
+//		List<CompanyToCompanyDTO> allCompany = all.stream().map(companyDetails->mapper.map(companyDetails, CompanyToCompanyDTO.class)).collect(Collectors.toList());
 		return new ResponseEntity<List<Company>>(all, HttpStatus.OK);
 	}
 
@@ -93,6 +127,7 @@ public class CompanyService {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(new ApiResponse(HttpStatus.OK.value(), "Company Updated!", updatedCompany));
 	}
+	
 
 	public ResponseEntity<?> getRemoveById(Long id) {
 		Optional<Company> companyById = companyRepository.findById(id);
@@ -104,6 +139,19 @@ public class CompanyService {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(new ApiResponse(HttpStatus.OK.value(), "Deleted Company by ID: " + id, null));
 
+	}
+
+	public List<UserToUserDTO> getUserWithCompanyId(Long id) {
+		Optional<Company> company = companyRepository.findById(id);
+		 List<User> users= userRepository.findByCompany(company.get());
+		 List<UserToUserDTO> usersData = users.stream().map(user->mapper.map(user, UserToUserDTO.class)).collect(Collectors.toList());
+		 return usersData;		
+	}
+
+	public Set<Bank> getBanksOfCompany(Long id) {
+		Optional<Company> companyId = companyRepository.findById(id);
+		Set<Bank> banks = companyId.get().getBanks();
+		return banks;
 	}
 
 }

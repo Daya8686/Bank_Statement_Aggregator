@@ -52,7 +52,7 @@ public class BankServices {
 			throw new BankServiceExceptionHandler("Bank with Id: " + id + " is not available", HttpStatus.NOT_FOUND);
 		}
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new ApiResponse(HttpStatus.ACCEPTED.value(),
-				"Bank with Id: " + id + " is not available", bankById.get()));
+				"Bank with Id: " + id + " is available", bankById.get()));
 	}
 
 	public ResponseEntity<List<Bank>> getAllBank() {

@@ -82,6 +82,13 @@ public class BankStatementRecevierDTO {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
+
+	@Override
+	public String toString() {
+		return "BankStatementRecevierDTO [companyCode=" + companyCode + ", bankCode=" + bankCode + ", branchId="
+				+ branchId + ", statementDate=" + statementDate + ", statementCode=" + statementCode + ", companyName="
+				+ companyName + "]";
+	}
 	
 	
 

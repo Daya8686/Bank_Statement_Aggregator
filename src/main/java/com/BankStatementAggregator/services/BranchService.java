@@ -32,11 +32,14 @@ public class BranchService {
 	public ResponseEntity<?> createBranch(BranchDTO branchDTO) {
 		Branch branch = mapper.map(branchDTO, Branch.class);
 		
-		Bank bankByBankCode = bankRepository.findByBankCode(branchDTO.getBankCode() );
-		if(bankByBankCode==null) {
+		Bank branchByBankCode = bankRepository.findByBankCode(branchDTO.getBankCode() );
+		if(branchByBankCode==null) {
 			throw new BranchServiceExceptionHandler("Bank Code is invalid", HttpStatus.NOT_FOUND);
 		}
-		branch.setBank(bankByBankCode);
+		if(branchByBankCode.getBranches().contains(branchDTO.getBankCode())) {
+			throw new BranchServiceExceptionHandler("Branch in that bank is present", HttpStatus.BAD_REQUEST);
+		}
+		branch.setBank(branchByBankCode);
 		Branch saveBranch = branchRepository.save(branch);
 		if(saveBranch==null) {
 			throw new BranchServiceExceptionHandler("Unable to create Branch! Unknown error occure.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -91,7 +94,7 @@ public class BranchService {
 	
 	
 	
-	public ResponseEntity<Branch> getRemoveById(Long id) {
+	public ResponseEntity<Branch> removeById(Long id) {
 		Optional<Branch> branchById = branchRepository.findById(id);
 		if(branchById.isEmpty()) {
 			throw new BranchServiceExceptionHandler("Branch with ID: "+id+" is not available for delete.", HttpStatus.BAD_REQUEST);

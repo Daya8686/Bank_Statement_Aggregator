@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,8 @@ import com.BankStatementAggregator.Enitiy.User;
 import com.BankStatementAggregator.errorhandiling.UserServiceException;
 import com.BankStatementAggregator.services.UserService;
 import com.BankStatementAggregator.util.ApiResponse;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
 import jakarta.validation.Valid;
 
@@ -56,6 +59,7 @@ public class UserController {
 			throw new UserServiceException("No Users Found", HttpStatus.NO_CONTENT);
 			
 		}
+
 		return new ResponseEntity<>(allUsers, HttpStatus.OK);
 		
 	}

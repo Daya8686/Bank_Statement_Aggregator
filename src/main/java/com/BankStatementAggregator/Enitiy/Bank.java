@@ -2,11 +2,13 @@ package com.BankStatementAggregator.Enitiy;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,6 +20,7 @@ import lombok.ToString;
 @Entity
 @Table(name="bank")
 @ToString
+@JsonFilter("BankWithOutBranch")
 public class Bank {
 	
 	@Id
@@ -34,12 +37,14 @@ public class Bank {
 //	@JsonIgnore
 //    private Set<User> users; // Many banks can have many users
 	
-//	@ManyToMany(mappedBy = "banks", cascade = CascadeType.ALL)
-//    private Set<Company> company; // Many banks can have many users
+	@ManyToMany(mappedBy = "banks", cascade = CascadeType.ALL)
+	@JsonIgnore
+    private Set<Company> company; // Many banks can have many users
 
 
-    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL)
-    private Set<Branch> branches;
+	@OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Branch> branches;
+
 
 	public Long getBankId() {
 		return bankId;
@@ -57,9 +62,7 @@ public class Bank {
 		this.bankName = bankName;
 	}
 
-	
 
-	
 
 	public int getBankCode() {
 		return bankCode;
@@ -81,17 +84,24 @@ public class Bank {
 		return branches;
 	}
 
-//	public Set<Company> getCompany() {
-//		return company;
-//	}
-//
-//	public void setCompany(Set<Company> company) {
-//		this.company = company;
-//	}
+	public Set<Company> getCompany() {
+		return company;
+	}
+
+	public void setCompany(Set<Company> company) {
+		this.company = company;
+	}
 
 	public void setBranches(Set<Branch> branches) {
 		this.branches = branches;
 	}
 
+	@Override
+	public String toString() {
+		return "Bank [bankId=" + bankId + ", bankName=" + bankName + ", bankCode=" + bankCode + ", branches=" + branches
+				+ "]";
+	}
+
     
+	
 }

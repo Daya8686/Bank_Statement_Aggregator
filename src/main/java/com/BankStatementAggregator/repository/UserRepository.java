@@ -1,12 +1,14 @@
 package com.BankStatementAggregator.repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.BankStatementAggregator.Enitiy.Company;
 import com.BankStatementAggregator.Enitiy.User;
 
 import jakarta.transaction.Transactional;
@@ -23,7 +25,11 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	@Modifying
     @Transactional
-    @Query("update User u set u.userLastLogin=:userLastLogin where u.userName=:username")
-	public int updateUserLastLogin(@Param("userLastLogin") LocalDateTime userLastLogin, @Param ("username") String userName);
+    @Query("update User u set u.userLastLogin=:userLastLogin where u.userId=:userId")
+	public int updateUserLastLogin(@Param("userLastLogin") LocalDateTime userLastLogin, @Param ("userId") Long userId);
+	
+	
+	public List<User> findByCompany(Company company);
+	
 	
 }

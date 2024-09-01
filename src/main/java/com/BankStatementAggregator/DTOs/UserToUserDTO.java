@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.BankStatementAggregator.Enitiy.Bank;
 import com.BankStatementAggregator.Enitiy.Company;
+import com.fasterxml.jackson.annotation.JsonFilter;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonFilter("UsersWithCompanyId")
 public class UserToUserDTO {
 
 	private long userId;
@@ -34,7 +36,7 @@ public class UserToUserDTO {
 
 	private Integer userInvalidAttempts;
 
-	private Company company;
+	private CompanyToCompanyDTO company;
 
 
 
@@ -110,11 +112,11 @@ public class UserToUserDTO {
 		this.userInvalidAttempts = userInvalidAttempts;
 	}
 
-	public Company getCompany() {
+	public CompanyToCompanyDTO getCompany() {
 		return company;
 	}
 
-	public void setCompany(Company company) {
+	public void setCompany(CompanyToCompanyDTO company) {
 		this.company = company;
 	}
 

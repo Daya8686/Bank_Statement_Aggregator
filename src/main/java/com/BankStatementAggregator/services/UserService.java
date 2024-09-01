@@ -145,7 +145,7 @@ public class UserService {
 			throw new UserServiceException("Username " + username + "is invalid", HttpStatus.FORBIDDEN);
 			
 		}
-		userRepository.updateUserLastLogin(LocalDateTime.now(), username);
+		userRepository.updateUserLastLogin(LocalDateTime.now(), userInfo.getUserId());
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(new ApiResponse(HttpStatus.OK.value(), "User Logined Succesfully.", null));
 
@@ -165,7 +165,7 @@ public class UserService {
 	/* Get All Users */
 	public List<UserToUserDTO> getAllUsers() {
 		List<User> allUsers = userRepository.findAll();
-
+		
 		return allUsers.stream().map(user -> mapper.map(user, UserToUserDTO.class)).collect(Collectors.toList());
 
 	}
@@ -178,6 +178,7 @@ public class UserService {
 		User userInfo = user.get();
 		userInfo.setUserName(updateUser.getUserName());
 		userInfo.setUserEmail(updateUser.getUserEmail());
+		
 //		if(!updateUser.getBankCodes().equals(null)) {
 //			
 //		Set<Integer> bankCodes = updateUser.getBankCodes();

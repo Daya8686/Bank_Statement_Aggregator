@@ -1,5 +1,7 @@
 package com.BankStatementAggregator.DTOs;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,22 +10,22 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
-public class StatementGenerationDTO {
+public class StatementGenarateByCompany {
 	
-	@NotBlank
 	@Min(value = 1000, message = "Company Code must be at least 4 digits")
-	@Max(value = 999999, message = "Company Code must be at most 6 digits")
+    @Max(value = 999999, message = "Compay Code must be at most 6 digits")
+	@Column(nullable = false)
 	private Integer companyCode;
 	
 	@NotBlank
 	@Min(value = 1000, message = "Bank Code must be at least 4 digits")
     @Max(value = 999999, message = "Bank Code must be at most 6 digits")
-	private Integer bankCode;
+	private List<Integer> bankCode;
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="branch_id")
-    private Long branchId;
+    private List<List<Long>> branchId;
 	
 	@NotBlank
 	private int numberOfTransactionsGenerate;
@@ -42,21 +44,21 @@ public class StatementGenerationDTO {
 		this.companyCode = companyCode;
 	}
 
-	
-
-	public Integer getBankCode() {
+	public List<Integer> getBankCode() {
 		return bankCode;
 	}
 
-	public void setBankCode(Integer bankCode) {
+	public void setBankCode(List<Integer> bankCode) {
 		this.bankCode = bankCode;
 	}
 
-	public Long getBranchId() {
+	
+
+	public List<List<Long>> getBranchId() {
 		return branchId;
 	}
 
-	public void setBranchId(Long branchId) {
+	public void setBranchId(List<List<Long>> branchId) {
 		this.branchId = branchId;
 	}
 
@@ -83,10 +85,6 @@ public class StatementGenerationDTO {
 	public void setCompanyName(String companyName) {
 		CompanyName = companyName;
 	}
-
-	
-
-	
 	
 	
 

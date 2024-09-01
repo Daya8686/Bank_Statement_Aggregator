@@ -2,6 +2,8 @@ package com.BankStatementAggregator.Enitiy;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +17,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name="company")
-@ToString
+
 public class Company {
 	
 	@Id
@@ -71,6 +73,12 @@ public class Company {
 
 	public void setBanks(Set<Bank> banks) {
 		this.banks = banks;
+	}
+
+	@Override
+	public String toString() {
+		return "Company [companyId=" + companyId + ", companyName=" + companyName + ", companyCode=" + companyCode
+				+ ", banks=" + banks + "]";
 	}
 
 	

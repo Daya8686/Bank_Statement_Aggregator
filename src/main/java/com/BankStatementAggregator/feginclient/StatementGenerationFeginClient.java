@@ -11,6 +11,6 @@ import com.BankStatementAggregator.DTOs.StatementGenerationDTO;
 public interface StatementGenerationFeginClient  {
 	
 	@PostMapping("/generate")
-	public ResponseEntity<BankStatementRecevierDTO> BankStatementsGenerator( StatementGenerationDTO bankStatementDTO);
+	public ResponseEntity<?> BankStatementsGenerator( StatementGenerationDTO bankStatementDTO);
 
 }
